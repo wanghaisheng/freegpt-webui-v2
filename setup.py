@@ -1,5 +1,5 @@
 # https://github.com/Futura-Py/TimerX/tree/master
-import sys
+import sys,os
 
 from cx_Freeze import Executable, setup
 
@@ -121,7 +121,14 @@ bdist_msi_options = {
     "target_name": "FreeGPT",
 }
 bdist_mac_options = {"bundle_name": "FreeGPT", "iconfile": "./client/assets/icon.ico",
-
+        "custom_info_plist": None,  # Set this to use a custom info.plist file
+        "codesign_entitlements": os.path.join(
+            os.path.dirname(__file__), "codesign-entitlements.plist"
+        ),
+        "codesign_identity":'TiktokaStudio',  # Set this to enable signing with custom identity (replaces adhoc signature)
+        "codesign_options": "runtime",  # Ensure codesign uses 'hardened runtime'
+        "codesign_verify": False,  # Enable to get more verbose logging regarding codesign
+        "spctl_assess": False,  # Enable to get more verbose logging regarding codesign
 "include_resources":[
 
          ( './client/', 'client' ),
