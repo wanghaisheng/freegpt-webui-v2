@@ -6,11 +6,19 @@ from server.backend import Backend_Api
 from server.babel import create_babel
 from json import load
 from flask import Flask
+import sys,os
+
+if getattr(sys, 'frozen', False):
+    # The application is frozen
+    datadir = os.path.dirname(sys.executable)
+else:
+    # The application is not frozen
+    datadir = os.path.dirname(__file__)
 
 if __name__ == '__main__':
 
     # Load configuration from config.json
-    config = load(open('config.json', 'r'))
+    config = load(open(os.path.join(datadir+os.sep+'conf','config.json'), 'r'))
     site_config = config['site_config']
     url_prefix = config.pop('url_prefix')
 
