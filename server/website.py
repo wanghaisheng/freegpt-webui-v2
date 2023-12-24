@@ -53,6 +53,6 @@ class Website:
 
     def get_locale(self):
         return get_locale()
-    
-    def get_languages(self):  
+
+    def get_languages(self):
         return get_languages()

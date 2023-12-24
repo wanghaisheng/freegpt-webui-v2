@@ -1,9 +1,19 @@
-import os
+import os,sys
 import subprocess
 from flask import request, session, jsonify
 from flask_babel import Babel
 
+if getattr(sys, 'frozen', False):
+    # The application is frozen
+    datadir = os.path.dirname(sys.executable)
+else:
+    # The application is not frozen
+    datadir = os.path.dirname(__file__)
+    datadir=os.path.dirname(datadir)
 
+# https://stackoverflow.com/questions/56733085/how-to-know-the-current-file-path-after-being-frozen-into-an-executable-using-cx
+ROOT_DIR = datadir
+print(f"ROOT_DIR{ROOT_DIR}")
 def get_languages_from_dir(directory):
     """Return a list of directory names in the given directory."""
     return [name for name in os.listdir(directory)
@@ -11,8 +21,9 @@ def get_languages_from_dir(directory):
 
 
 BABEL_DEFAULT_LOCALE = 'en_US'
-BABEL_LANGUAGES = get_languages_from_dir('translations')
 
+BABEL_LANGUAGES = get_languages_from_dir(os.path.join(ROOT_DIR,'translations'))
+print(f"BABEL_LANGUAGES{BABEL_LANGUAGES}")
 
 def create_babel(app):
     """Create and initialize a Babel instance with the given Flask app."""
@@ -37,7 +48,7 @@ def get_languages():
 def compile_translations():
     """Compile the translation files."""
     result = subprocess.run(
-        ['pybabel', 'compile', '-d', 'translations'],
+        ['pybabel', 'compile', '-d', os.path.join(ROOT_DIR,'translations')],
         stdout=subprocess.PIPE,
     )
 

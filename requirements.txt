@@ -26,3 +26,7 @@ PyExecJS
 browser_cookie3
 js2py
 platformdirs
+undetected_chromedriver
+py_arkose_generator
+asyncstdlib
+async_property
